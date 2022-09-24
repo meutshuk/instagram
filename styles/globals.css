@@ -16,12 +16,26 @@ a {
   box-sizing: border-box;
 }
 
+textarea {
+  resize: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
   body {
     color: white;
-    background: rgb(82, 82, 82);
+    background: rgb(0, 0, 0);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: light;
+  }
+  body {
+    color: rgb(0, 0, 0);
+    background: rgb(255, 255, 255);
   }
 }

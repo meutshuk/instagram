@@ -4,10 +4,11 @@ import styles from "../styles/Navbar.module.scss";
 import Link from "next/link";
 import { auth, getUserFromUsername } from "../util/firebase";
 import Image from "next/image";
+import Button from "./Button";
 
-function Navbar() {
-  const { user, username } = React.useContext(UserContext);
-
+function Navbar(props) {
+  const { user, username } = props;
+  console.log("navbar ", username);
   const signOut = () => {
     auth.signOut();
   };
@@ -20,14 +21,22 @@ function Navbar() {
 
       {user ? (
         <ul>
-          <Link href={`/${username}`}>
-            <Image
-              src={user.photoURL}
-              alt="profile pic"
-              height={50}
-              width={50}
-            />
-          </Link>
+          {username && (
+            <li>
+              <Link href={`/${username}`}>
+                <Image
+                  src={user.photoURL}
+                  alt="profile pic"
+                  height={50}
+                  width={50}
+                />
+              </Link>
+              <Link href={"/new"}>
+                <div>New Post</div>
+              </Link>
+            </li>
+          )}
+
           <li onClick={signOut}>Sign Out</li>
         </ul>
       ) : (

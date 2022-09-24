@@ -1,0 +1,16 @@
+@use "variables" as v;
+
+.container {
+  //   border-width: 100px;
+
+  width: 75vw;
+}
+
+.post__container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.4rem 0;
+  border-radius: 10px;
+  background-color: v.$color-secondary-background;
+  padding: 15px 30px;
+}

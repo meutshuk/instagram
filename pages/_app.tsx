@@ -13,15 +13,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const { user, username } = useUserData();
 
-  const darkTheme = createTheme({
-    type: "dark",
-    theme: {},
-  });
-
   return (
-    <NextUIProvider theme={darkTheme}>
+    <NextUIProvider>
       <UserContext.Provider value={{ user: user, username: username }}>
-        <Navbar />
+        <Navbar user={user} username={username} />
         <Component {...pageProps} />
       </UserContext.Provider>
     </NextUIProvider>

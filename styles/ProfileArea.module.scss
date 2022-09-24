@@ -1,0 +1,35 @@
+@use "variables" as v;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
+.profileArea__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75vw;
+  border-radius: 10px;
+  background-color: v.$color-secondary-background;
+  padding: 15px;
+}
+
+.profilePicture__container {
+  height: 200px;
+  width: 200px;
+  border: solid 10px v.$color-primary;
+  border-radius: 50%;
+  margin: 0 0 10px 0;
+}
+
+.profileArea__picture {
+  border-radius: 50%;
+  //   opacity: 0.5;
+  &:hover {
+    opacity: 0.1;
+  }
+}

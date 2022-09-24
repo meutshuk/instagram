@@ -10,6 +10,7 @@ import {
   PostToJSON,
   UserToJSON,
 } from "../../util/firebase";
+import style from "../../styles/ProfileArea.module.scss";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const username = context.query.username;
@@ -39,7 +40,7 @@ export default function ProfilePage(props: IProfileProps) {
   //   console.log(user);
   //   console.log(posts);
   return (
-    <div>
+    <div className={style.container}>
       <ProfileArea user={user} />
       <PostFeed posts={posts} />
     </div>

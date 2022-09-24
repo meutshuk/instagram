@@ -171,23 +171,3 @@ const UsernameForm = () => {
     </form>
   );
 };
-
-// interface UserMessageProps {
-//   isValid: boolean;
-//   isloading: boolean;
-//   username: string;
-// }
-
-// const UsernameMessage = (props: UserMessageProps) => {
-//   const { isValid, isloading, username } = props;
-
-//   if (isloading) {
-//     return <h2>Checking ...</h2>;
-//   } else if (isValid) {
-//     return <h2>Username {username} is valid</h2>;
-//   } else if (username && !isValid) {
-//     return <h2>Username {username} is not valid</h2>;
-//   } else {
-//     return <p></p>;
-//   }
-// };
