@@ -8,6 +8,7 @@ import {
   limit,
   query,
   QueryDocumentSnapshot,
+  serverTimestamp,
   where,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -27,7 +28,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-
+export const getServerTimeStamp = serverTimestamp();
 /**
  * * Get a user with username
  */
@@ -60,4 +61,20 @@ export const UserToJSON = (doc: QueryDocumentSnapshot<DocumentData>) => {
     // Gotcha! firestore timestamp NOT serializable to JSON. Must convert to milliseconds
     createdAt: data.createdAt.toMillis(),
   };
+};
+
+export const getPostsfromUsername = async (username: string) => {
+  const userDoc = await getUserFromUsername(username);
+  const postsRef = collection(userDoc.ref, "posts");
+  const q = query(postsRef, where("published", "==", true), limit(5));
+  const posts = await getDocs(q);
+  console.log(posts);
+  return posts;
+};
+
+export const getPublishedPosts = async () => {
+  const postsRef = collection(db, "posts");
+  const q = query(postsRef, where("published", "==", true), limit(5));
+  const posts = await getDocs(q);
+  return posts;
 };

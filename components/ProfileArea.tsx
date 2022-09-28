@@ -11,7 +11,6 @@ function ProfileArea(props) {
   const [mouseOverGoogle, setMouseOverGoogle] = React.useState(false);
   const date = new Date(user.createdAt);
   const { day, dayNumber, month, year } = getDayAndDate(date);
-  //convert milli to date on DD MM YYYY
 
   return (
     <div className={style.profileArea__container}>

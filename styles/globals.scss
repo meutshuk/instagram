@@ -1,3 +1,7 @@
+
+@forward "./globalVariable";
+@forward "./markdown";
+
 html,
 body {
   padding: 0;
@@ -38,4 +42,12 @@ textarea {
     color: rgb(0, 0, 0);
     background: rgb(255, 255, 255);
   }
+}
+
+// .md-editor-toolbar-warp {
+//   display: none;
+// }
+
+.asdf {
+  height: 300px;
 }

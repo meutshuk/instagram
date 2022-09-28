@@ -5,47 +5,63 @@ import Link from "next/link";
 import { auth, getUserFromUsername } from "../util/firebase";
 import Image from "next/image";
 import Button from "./Button";
+import { RiCodeSSlashLine } from "react-icons/ri";
 
 function Navbar(props) {
   const { user, username } = props;
-  console.log("navbar ", username);
+
   const signOut = () => {
     auth.signOut();
   };
+  // return {!user && !username && return <div>loading...</div>}
+  if (!user && !username) {
+    return (
+      <nav className={styles.navbar}>
+        <div className={styles.navbar__container}></div>
+      </nav>
+    );
+  }
 
   return (
     <nav className={styles.navbar}>
-      <Link href={"/"}>
-        <div>Logo</div>
-      </Link>
-
-      {user ? (
-        <ul>
-          {username && (
-            <li>
-              <Link href={`/${username}`}>
-                <Image
-                  src={user.photoURL}
-                  alt="profile pic"
-                  height={50}
-                  width={50}
-                />
-              </Link>
-              <Link href={"/new"}>
-                <div>New Post</div>
-              </Link>
+      <div className={styles.navbar__container}>
+        <Link href={"/"}>
+          <div className={styles.logo}>
+            <RiCodeSSlashLine size={30} color="white" />
+          </div>
+        </Link>
+        {user ? (
+          <ul className={styles.loggedin}>
+            {username && (
+              <li className={styles.loggedin__username}>
+                <Link href={`/${username}`}>
+                  <Image
+                    className={styles.username__image}
+                    src={user.photoURL}
+                    alt="profile pic"
+                    height={50}
+                    width={50}
+                  />
+                </Link>
+                <Link href={"/new"}>
+                  <div className={styles["loggedin__username-new-post"]}>
+                    New Post
+                  </div>
+                </Link>
+              </li>
+            )}
+            <li className={styles.signout} onClick={signOut}>
+              Sign Out
             </li>
-          )}
-
-          <li onClick={signOut}>Sign Out</li>
-        </ul>
-      ) : (
-        <ul>
-          <Link href={"login"}>
-            <li>Sign In</li>
-          </Link>
-        </ul>
-      )}
+          </ul>
+        ) : (
+          <ul>
+            <Link href={"login"}>
+              <li>Sign In</li>
+            </Link>
+          </ul>
+        )}
+      </div>
     </nav>
   );
 }

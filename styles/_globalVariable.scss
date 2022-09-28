@@ -1,0 +1,21 @@
+:root {
+  --black: #000;
+  --white: #fff;
+
+  --primary: #92c40b;
+  --secondary: #1db9e0;
+  --tertiary: #0000ff;
+  --error-color: #ff0000;
+  --success-color: #00ff00;
+  --warning-color: #ffff00;
+  --info-color: #00ffff;
+  --background-color-dark: #000000;
+  --background-color-light: #ffffff;
+  --background-2: #2e2c2c;
+
+  --margin {
+    --small: 0.5rem;
+    --medium: 1rem;
+    --large: 2rem;
+  }
+}

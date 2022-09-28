@@ -2,7 +2,13 @@ import React, { useCallback, useContext, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { doc, getDoc, setDoc, writeBatch } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 import Link from "next/link";
 import _ from "lodash";
 import { Grid, Input, Loading, Button } from "@nextui-org/react";
@@ -100,7 +106,7 @@ const UsernameForm = () => {
       displayName: user.displayName,
       username: formValue,
       photoURL: user.photoURL,
-      createdAt: user.metadata.creationTime,
+      createdAt: serverTimestamp(),
     };
 
     batch.set(userDoc, newUser);

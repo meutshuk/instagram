@@ -1,7 +1,54 @@
 @use "variables" as v;
 
 .navbar {
-  background-color: rgb(183, 146, 146);
-  //   color: v.$color-black;
-  //   border-width: 10px;
+  background-color: var(--background-2);
+  height: 5rem;
+
+  .navbar__container {
+    margin: 0 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .logo {
+      align-self: center;
+      justify-content: center;
+    }
+
+    .loggedin {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--white);
+
+      .loggedin__username {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .username__image {
+          border-radius: 50%;
+        }
+
+        .loggedin__username-new-post {
+          background-color: var(--secondary);
+          padding: 10px;
+          border-radius: 10px;
+          border: 2px solid rgb(255, 255, 255);
+          margin: 0 2vw 0 3vw;
+        }
+      }
+
+      .signout {
+        justify-content: center;
+        background-color: var(--error-color);
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid rgb(255, 255, 255);
+        margin-left: 5px;
+      }
+    }
+  }
 }
