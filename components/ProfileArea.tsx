@@ -9,6 +9,7 @@ import { getDayAndDate } from "../util/general";
 function ProfileArea(props) {
   const { user } = props;
   const [mouseOverGoogle, setMouseOverGoogle] = React.useState(false);
+
   const date = new Date(user.createdAt);
   const { day, dayNumber, month, year } = getDayAndDate(date);
 

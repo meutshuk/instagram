@@ -1,4 +1,3 @@
-
 @forward "./globalVariable";
 @forward "./markdown";
 
@@ -50,4 +49,13 @@ textarea {
 
 .asdf {
   height: 300px;
+}
+
+// * classname for the main index page to make it centre
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

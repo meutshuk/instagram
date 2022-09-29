@@ -22,7 +22,6 @@ import style from "../../styles/ProfileArea.module.scss";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const username = context.query.username;
   const userDoc = username && (await getUserFromUsername(username));
-  console.log("context", context.req);
   let user = null;
   let posts = null;
 
@@ -34,9 +33,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       limit(5),
       orderBy("createdAt", "desc")
     );
-    //   const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
-    //     console.log("Current data: ", doc.data());
-    // });
     posts = (await getDocs(postQ)).docs.map((po) => {
       return PostToJSON(po);
     });
@@ -48,8 +44,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function ProfilePage(props: IProfileProps) {
   const { user, posts, username } = props;
 
-  //   console.log(user);
-  //   console.log(posts);
   return (
     <div className={style.container}>
       <ProfileArea user={user} />

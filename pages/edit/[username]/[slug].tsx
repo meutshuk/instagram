@@ -16,14 +16,16 @@ import {
   getDocs,
   limit,
   query,
+  serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
 import { IPost, IUser } from "../../../typings/interfaces";
+import EditScreen from "../../../components/EditScreen";
+import Router from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = context.params;
-  //   const username = context.query.username;
   let userDoc;
   if (params?.username) {
     userDoc = await getUserFromUsername(params.username);
@@ -47,33 +49,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return { props: { user, post } };
 };
-
-const MarkdownEditor = dynamic(
-  () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
-  { ssr: false }
-);
-
-const EditerMarkdown = dynamic(
-  () =>
-    import("@uiw/react-md-editor").then((mod) => {
-      return mod.default.Markdown;
-    }),
-  { ssr: false }
-);
-
 interface ISlugProps {
-  user: IUser;
   post: IPost[];
 }
 
 const EditPost = (props: ISlugProps) => {
-  const { user, post } = props;
+  const { post } = props;
+
   const [loading, setLoading] = useState(false);
+  const [singlePost, setSinglePost] = useState<IPost>(post[0]);
   const [content, setContent] = useState(post[0].content);
   const [title, setTitle] = useState(post[0].title);
-  const [preview, setPreview] = useState(false);
+  const [published, setPublished] = useState(post[0].published);
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     setLoading(true);
     const slug = post[0].slug;
     const postRef = doc(db, "users", post[0].uid, "posts", slug);
@@ -81,54 +71,35 @@ const EditPost = (props: ISlugProps) => {
     await updateDoc(postRef, {
       content: content,
       title: title,
+      updatedAt: serverTimestamp(),
+      published: published,
     });
+    Router.push(`/${post[0].username}`);
     setLoading(false);
+  };
+
+  const onChangeTitle = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setTitle(e.target.value);
+  };
+
+  const onChangeContent = (e: string) => {
+    setContent(e);
   };
 
   return (
     <div>
-      <p>Change title</p>
-      <input
-        type="text"
-        value={title}
-        onChange={(v) => {
-          setTitle(v.target.value);
-        }}
+      <EditScreen
+        loading={loading}
+        handleSubmit={handleUpdate}
+        content={content}
+        title={title}
+        onChangeTitle={onChangeTitle}
+        setContent={setContent}
+        published={published}
+        setPublished={setPublished}
       />
-      <br />
-      <br />
-      <p>Change content</p>
-      <div>
-        <button
-          onClick={() => {
-            setPreview(!preview);
-          }}
-        >
-          {preview ? "Edit" : "Preview"}
-        </button>
-        {/* <button>Preview</button> */}
-      </div>
-      {preview ? (
-        <EditerMarkdown className="asdf" source={content} />
-      ) : (
-        <MarkdownEditor
-          //   theme={"light"}
-
-          value={content}
-          onChange={(v) => setContent(v)}
-          height={"300px"}
-          enableScroll={true}
-        />
-      )}
-
-      <button
-        disabled={loading}
-        onClick={() => {
-          handleUpdate();
-        }}
-      >
-        Save
-      </button>
     </div>
   );
 };

@@ -25,7 +25,7 @@ export default function Login() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <Loader show />
+        <Loader />
       </div>
     );
   }
@@ -86,9 +86,6 @@ const UsernameForm = () => {
   const [isValidElement, setIsValid] = React.useState(false);
 
   const { user, username } = useContext(UserContext);
-
-  console.log(user);
-
   const submitForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 

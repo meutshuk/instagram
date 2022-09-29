@@ -37,9 +37,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       where("slug", "==", params?.slug),
       limit(5)
     );
-    //   const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
-    //     console.log("Current data: ", doc.data());
-    // });
     post = (await getDocs(postQ)).docs.map((po) => {
       return PostToJSON(po);
     });
@@ -55,9 +52,6 @@ interface ISlugProps {
 
 const Posts = (props: ISlugProps) => {
   const { user, post } = props;
-
-  //   console.log(user);
-  //   console.log(posts);
   return (
     <div className={style.container}>
       <ProfileArea user={user} />

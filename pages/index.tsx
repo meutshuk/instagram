@@ -1,34 +1,20 @@
 import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import { useContext, useState } from "react";
-import styles from "../styles/Home.module.css";
 import { UserContext } from "../util/context";
-import Button from "@mui/material/Button";
-import Link from "next/link";
-import { redirect } from "next/dist/server/api-utils";
+
+import { db, getProfileUrl, PostToJSON } from "../util/firebase";
 import {
-  db,
-  getPostsfromUsername,
-  getPublishedPosts,
-  getUserFromUsername,
-  PostToJSON,
-  UserToJSON,
-} from "../util/firebase";
-import {
-  collection,
   collectionGroup,
   getDocs,
   limit,
   query,
   where,
 } from "firebase/firestore";
-import Posts from "./[username]/[slug]";
 import { IPost } from "../typings/interfaces";
 import PostFeed from "../components/PostFeed";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // console.log(postsss.docs.data());
+  await getProfileUrl("utshuk");
 
   let user = null;
   let post = null;
@@ -52,11 +38,10 @@ interface ISlugProps {
 
 const Home = (props: ISlugProps) => {
   const [post, setPost] = useState(props.post);
-  console.log(post);
   const { user, username } = useContext(UserContext);
 
   return (
-    <div>
+    <div className="main-container">
       <PostFeed posts={post} />
     </div>
   );

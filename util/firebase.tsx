@@ -68,8 +68,13 @@ export const getPostsfromUsername = async (username: string) => {
   const postsRef = collection(userDoc.ref, "posts");
   const q = query(postsRef, where("published", "==", true), limit(5));
   const posts = await getDocs(q);
-  console.log(posts);
   return posts;
+};
+
+export const getProfileUrl = async (username: string) => {
+  const userDoc = await getUserFromUsername(username);
+  const JSONUser = UserToJSON(userDoc);
+  // return JSONUser;
 };
 
 export const getPublishedPosts = async () => {

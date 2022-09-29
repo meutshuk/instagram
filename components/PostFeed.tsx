@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   deleteDoc,
   doc,
@@ -9,33 +9,34 @@ import {
 import styles from "../styles/PostFeed.module.scss";
 import { IPost, IUser } from "../typings/interfaces";
 import { UserContext } from "../util/context";
-import { auth, db } from "../util/firebase";
+import { auth, db, getUserFromUsername, UserToJSON } from "../util/firebase";
 import Link from "next/link";
-import { handleEdit } from "../util/general";
-import AuthCheck from "./AuthCheck";
 import Heart from "./Heart";
+import Image from "next/image";
 
 interface IPostFeedProps {
   posts: IPost[];
   // username?: string;
 }
-
 function PostFeed(props: IPostFeedProps) {
+  const [loading, setLoading] = useState(false);
+  // const [profilePic, setProfilePic] = useState("");
   const { user, username } = useContext(UserContext);
+  // const [postUsername, setPostUsername] = useState("");
   const { posts } = props;
-
-  console.log(username);
-
-  // const handleEdit = (slug) => {
-  //   console.log("Edit");
-  // };
 
   let postRef: DocumentReference<DocumentData>;
 
   const handleDelete = async (slug: string) => {
     postRef = doc(db, "users", user.uid, "posts", slug);
     await deleteDoc(postRef);
-    console.log("delte", slug);
+  };
+
+  const postUser = async (username: string) => {
+    const userDoc = await getUserFromUsername(username);
+    const user = UserToJSON(userDoc);
+    setLoading(false);
+    return user;
   };
 
   return (
@@ -43,27 +44,21 @@ function PostFeed(props: IPostFeedProps) {
       {posts.map((post) => {
         return (
           <div className={styles.post__container} key={post.slug}>
-            {/* {post.uid == auth.currentUser?.uid && (
-              <div className={styles.post__container__edit}>
-                <button onClick={() => handleEdit(post.slug, username)}>
-                  Edit
-                </button>
-                <button
-                  onClick={() => {
-                    handleDelete(post.slug);
-                  }}
-                >
-                  Delete
-                </button>
+            <div className={styles.container__userdetails}>
+              <div className={styles.userdetails__name}>
+                <Link href={`/${post.username}`}>
+                  <div className={styles.name__username}>{post.username}</div>
+                </Link>
               </div>
-            )} */}
-            <Heart slug={post.slug} post={post} />
-            <h6>{post.username}</h6>
-            <Link href={`/${username}/${post.slug}`}>
-              <h3>{post.title}</h3>
-            </Link>
-            {/* You dont need post content */}
-            {/* <p>{post.content}</p> */}
+
+              <Heart slug={post.slug} post={post} />
+            </div>
+
+            <div className={styles.post__container}>
+              <Link href={`/${post.username}/${post.slug}`}>
+                <div className={styles.post}>{post.title}</div>
+              </Link>
+            </div>
           </div>
         );
       })}

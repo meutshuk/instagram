@@ -1,4 +1,5 @@
 import Router from "next/router";
+import { IPost } from "../typings/interfaces";
 
 export const getDayAndDate = (date: Date) => {
   const day = date.toLocaleString("en-us", { weekday: "long" });
@@ -9,10 +10,10 @@ export const getDayAndDate = (date: Date) => {
   return { day, dayNumber, month, year };
 };
 
-export const handleEdit = (slug: string, username: string) => {
+export const handleEdit = (post: IPost) => {
   // const { slug, username } = props;
-  console.log("Edit");
-  Router.push(`/edit/${username}/${slug}`);
+  console.log(post);
+  Router.push(`/edit/${post.username}/${post.slug}`);
 };
 
 export const handleUpdate = (e) => {};

@@ -1,9 +1,5 @@
 import { FieldValue, Timestamp } from "firebase/firestore";
 
-export interface ILoaderProps {
-  show?: boolean;
-}
-
 export interface IButtonProps {
   text: string;
   handleClick?: () => void;

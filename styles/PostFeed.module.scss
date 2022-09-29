@@ -1,16 +1,58 @@
 @use "variables" as v;
 
 .container {
-  //   border-width: 100px;
-
   width: 75vw;
-}
 
-.post__container {
-  display: flex;
-  flex-direction: column;
-  margin: 0.4rem 0;
-  border-radius: 10px;
-  background-color: v.$color-secondary-background;
-  padding: 15px 30px;
+  .post__container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.4rem 0;
+    border-radius: 10px;
+    background-color: v.$color-secondary-background;
+    padding: 1rem 1rem;
+
+    .container__userdetails {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .userdetails__name {
+        display: flex;
+        flex-direction: row;
+        margin-left: 10px;
+
+        .name__image {
+          border-radius: 50%;
+        }
+
+        .name__username {
+          margin-left: 10px;
+          font-weight: 400;
+          color: var(--white);
+
+          &:hover {
+            cursor: default;
+            color: var(--primary);
+          }
+        }
+      }
+    }
+    .post__container {
+      // max-width: 90%;
+
+      .post {
+        // margin-top: 10px;
+        width: auto;
+        font-weight: 600;
+        color: var(--white);
+        font-size: x-large;
+        text-transform: capitalize;
+
+        &:hover {
+          cursor: default;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
 }

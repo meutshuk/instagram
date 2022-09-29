@@ -15,8 +15,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <NextUIProvider>
+      <Navbar user={user} username={username} />
       <UserContext.Provider value={{ user: user, username: username }}>
-        <Navbar user={user} username={username} />
         <Component {...pageProps} />
       </UserContext.Provider>
     </NextUIProvider>

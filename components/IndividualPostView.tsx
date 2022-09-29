@@ -3,9 +3,11 @@ import React, { useContext } from "react";
 import { IPost } from "../typings/interfaces";
 import { UserContext } from "../util/context";
 import styles from "../styles/PostFeed.module.scss";
-import { auth } from "../util/firebase";
+import { auth, db } from "../util/firebase";
 import Router from "next/router";
 import { handleEdit } from "../util/general";
+import { deleteDoc, doc } from "firebase/firestore";
+import Loader from "./Loader";
 
 interface IPostFeedProps {
   posts: IPost[];
@@ -13,14 +15,18 @@ interface IPostFeedProps {
 }
 
 function PostView(props: IPostFeedProps) {
-  const { user } = useContext(UserContext);
+  const { posts } = props;
+  const { user, username } = useContext(UserContext);
 
-  //   const router = new Router();
+  const [loading, setLoading] = React.useState(false);
 
-  function handleDelete(slug: string) {
-    throw new Error("Function not implemented.");
-  }
-  const { posts, username } = props;
+  const handleDelete = async (slug: string) => {
+    setLoading(true);
+    const postRef = doc(db, "users", user.uid, "posts", slug);
+    await deleteDoc(postRef);
+    setLoading(false);
+    Router.push(`/${username}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -29,15 +35,14 @@ function PostView(props: IPostFeedProps) {
           <div className={styles.post__container} key={post.slug}>
             {post.uid == auth.currentUser?.uid && (
               <div className={styles.post__container__edit}>
-                <button onClick={() => handleEdit(post.slug, username)}>
-                  Edit
-                </button>
+                <button onClick={() => handleEdit(post)}>Edit</button>
                 <button
                   onClick={() => {
                     handleDelete(post.slug);
                   }}
                 >
                   Delete
+                  {loading && <Loader />}
                 </button>
               </div>
             )}
