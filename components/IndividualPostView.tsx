@@ -33,26 +33,35 @@ function PostView(props: IPostFeedProps) {
       {posts.map((post) => {
         return (
           <div className={styles.post__container} key={post.slug}>
-            {post.uid == auth.currentUser?.uid && (
-              <div className={styles.post__container__edit}>
-                <button onClick={() => handleEdit(post)}>Edit</button>
-                <button
-                  onClick={() => {
-                    handleDelete(post.slug);
-                  }}
-                >
-                  Delete
-                  {loading && <Loader />}
-                </button>
+            <div className={styles.user__information__container}>
+              <div className={styles.user__information}>
+                {/**
+                 * TODO: Add a link to the user's profile and profile picture
+                 */}
+                <div>PP *</div>
+                <div>{post.username}</div>
               </div>
-            )}
-            <div>
-              {/**
-               * TODO: Add a link to the user's profile and profile picture
-               */}
-              <div>PP *</div>
-              <h6>{post.username}</h6>
+              {post.uid == auth.currentUser?.uid && (
+                <div className={styles.post__container__edit}>
+                  <button
+                    className={styles.edit__button}
+                    onClick={() => handleEdit(post)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={styles.delete__button}
+                    onClick={() => {
+                      handleDelete(post.slug);
+                    }}
+                  >
+                    <div>Delete</div>
+                    {loading && <Loader />}
+                  </button>
+                </div>
+              )}
             </div>
+
             <h3>{post.title}</h3>
             <p>{post.content}</p>
           </div>

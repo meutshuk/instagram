@@ -1,15 +1,6 @@
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
-
-// import "@uiw/react-markdown-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
 import { GetServerSideProps } from "next";
-import {
-  db,
-  getUserFromUsername,
-  PostToJSON,
-  UserToJSON,
-} from "../../../util/firebase";
+import Router from "next/router";
 import {
   collection,
   doc,
@@ -20,9 +11,15 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { IPost, IUser } from "../../../typings/interfaces";
+
+import {
+  db,
+  getUserFromUsername,
+  PostToJSON,
+  UserToJSON,
+} from "../../../util/firebase";
+import { IPost } from "../../../typings/interfaces";
 import EditScreen from "../../../components/EditScreen";
-import Router from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const params = context.params;
@@ -57,7 +54,6 @@ const EditPost = (props: ISlugProps) => {
   const { post } = props;
 
   const [loading, setLoading] = useState(false);
-  const [singlePost, setSinglePost] = useState<IPost>(post[0]);
   const [content, setContent] = useState(post[0].content);
   const [title, setTitle] = useState(post[0].title);
   const [published, setPublished] = useState(post[0].published);
@@ -74,7 +70,7 @@ const EditPost = (props: ISlugProps) => {
       updatedAt: serverTimestamp(),
       published: published,
     });
-    Router.push(`/${post[0].username}`);
+    Router.push(`/${post[0].username}/${slug}`);
     setLoading(false);
   };
 
@@ -82,10 +78,6 @@ const EditPost = (props: ISlugProps) => {
     target: { value: React.SetStateAction<string> };
   }) => {
     setTitle(e.target.value);
-  };
-
-  const onChangeContent = (e: string) => {
-    setContent(e);
   };
 
   return (

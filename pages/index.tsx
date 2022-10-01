@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { IPost } from "../typings/interfaces";
 import PostFeed from "../components/PostFeed";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await getProfileUrl("utshuk");
@@ -42,6 +43,7 @@ const Home = (props: ISlugProps) => {
 
   return (
     <div className="main-container">
+      
       <PostFeed posts={post} />
     </div>
   );

@@ -55,7 +55,6 @@ const Posts = (props: ISlugProps) => {
   return (
     <div className={style.container}>
       <ProfileArea user={user} />
-      {/* <PostFeed posts={post} /> */}
       <PostView posts={post} />
     </div>
   );

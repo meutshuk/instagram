@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  margin-top: 2rem;
 }
 
 .profileArea__container {
@@ -16,20 +17,20 @@
   border-radius: 10px;
   background-color: v.$color-secondary-background;
   padding: 15px;
+  // border: 0.1px solid var(--secondary);
 }
 
 .profilePicture__container {
   height: 200px;
   width: 200px;
-  border: solid 10px v.$color-primary;
+  border: solid 5px var(--white);
   border-radius: 50%;
   margin: 0 0 10px 0;
 }
 
 .profileArea__picture {
   border-radius: 50%;
-  //   opacity: 0.5;
   &:hover {
-    opacity: 0.1;
+    opacity: 0.9;
   }
 }

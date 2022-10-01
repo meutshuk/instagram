@@ -17,6 +17,10 @@ import Loader from "../../components/Loader";
 import { auth, db } from "../../util/firebase";
 import styles from "../../styles/Login.module.scss";
 import { UserContext } from "../../util/context";
+import Head from "next/head";
+import { TiTick } from "react-icons/ti";
+import { ImCheckmark, ImCross } from "react-icons/im";
+import Router from "next/router";
 
 export default function Login() {
   const [loading, setLoading] = React.useState(false);
@@ -25,12 +29,15 @@ export default function Login() {
   if (loading) {
     return (
       <div className={styles.container}>
+        <div className={styles.loader__text}>
+          Checking if you are worthy....
+        </div>
         <Loader />
       </div>
     );
   }
 
-  return user && username ? <RedirectToHome /> : <SignIn />;
+  return !user && !username && <SignIn />;
 }
 
 /**
@@ -46,36 +53,20 @@ const SignIn = () => {
   };
 
   return (
-    <div>
-      {!user && (
-        <Button
-          icon={<FcGoogle />}
-          css={{
-            backgroundColor: "white",
-            color: "black",
-          }}
-          onClick={handleLogin}
-        >
-          Sign in with Google
-        </Button>
-      )}
-
-      {user && !username && <UsernameForm />}
+    <div className={styles.container}>
+      <div className={styles.subContainer}>
+        {!user && (
+          <button className={styles.signin__container} onClick={handleLogin}>
+            <div className={styles.signin__text}>Sign in with Google</div>
+            <FcGoogle size={30} />
+          </button>
+        )}
+        {user && !username && <UsernameForm />}
+      </div>
     </div>
   );
 };
 
-/**
- * * Ridirect to Home Page right after login
- */
-
-const RedirectToHome = () => {
-  return (
-    <Link href={"/"}>
-      <div>Redirecting to Home</div>
-    </Link>
-  );
-};
 
 /**
  * * Setup Username
@@ -84,8 +75,8 @@ const UsernameForm = () => {
   const [formValue, setFormValue] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [isValidElement, setIsValid] = React.useState(false);
-
   const { user, username } = useContext(UserContext);
+
   const submitForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -108,8 +99,9 @@ const UsernameForm = () => {
 
     batch.set(userDoc, newUser);
     batch.set(usernameDoc, { uid: user.uid });
-
     await batch.commit();
+
+    Router.push("/");
   };
 
   useEffect(() => {
@@ -124,8 +116,9 @@ const UsernameForm = () => {
   const checkUsername = useCallback(
     _.debounce(async (username: string) => {
       if (username.length > 4) {
-        const usernameRef = doc(db, "usernames", username);
+        const usernameRef = doc(db, "username", username);
         const docSnap = await getDoc(usernameRef);
+        console.log(docSnap.exists());
         docSnap.exists() ? setIsValid(false) : setIsValid(true);
         setLoading(false);
       }
@@ -135,7 +128,6 @@ const UsernameForm = () => {
 
   const onChange = (e: { target: { value: string } }) => {
     const val = e.target.value.toLowerCase();
-
     const reg = /^[a-z0-9_]{5,}$/;
 
     if (reg.test(val)) {
@@ -153,24 +145,30 @@ const UsernameForm = () => {
   return (
     <form onSubmit={submitForm}>
       <div>
-        <Input
-          value={formValue}
-          onChange={onChange}
-          underlined
-          color={formValue.length < 5 || !isValidElement ? "error" : "success"}
-          placeholder="Username"
-          aria-label="Username"
-          width="16rem"
-          contentRight={loading && <Loading size="sm" />}
-        />
+        <div className={styles.username__text}>Enter Username</div>
+        <div className={styles.username__container}>
+          <input
+            className={styles.username__input}
+            type="text"
+            value={formValue}
+            onChange={onChange}
+            placeholder="Username"
+          />
+          {loading && <Loader />}
+          {!loading && isValidElement && (
+            <ImCheckmark color="green" size={30} />
+          )}
+          {!loading && !isValidElement && <ImCross color="red" size={30} />}
+        </div>
       </div>
-      <Button
-        color="secondary"
+
+      <button
+        className={styles.button__submit}
         type="submit"
         disabled={!isValidElement || loading}
       >
         Submit
-      </Button>
+      </button>
     </form>
   );
 };

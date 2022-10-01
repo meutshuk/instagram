@@ -8,7 +8,7 @@
     flex-direction: column;
     margin: 0.4rem 0;
     border-radius: 10px;
-    background-color: v.$color-secondary-background;
+    background-color: var(--background-2);
     padding: 1rem 1rem;
 
     .container__userdetails {
@@ -55,4 +55,46 @@
       }
     }
   }
+}
+
+.post__container__edit {
+  display: flex;
+  flex-direction: row;
+
+  .edit__button,
+  .delete__button {
+    // margin: 0.5rem 0;
+    height: 3rem;
+    width: 10vw;
+    border-radius: 10px;
+    border: 2px solid;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    // color: var(--white);
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+
+  .edit__button {
+    background-color: var(--tertiary);
+    margin-right: 1rem;
+  }
+
+  .delete__button {
+    background-color: var(--error-color);
+  }
+}
+
+.user__information__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  // padding: 15px;
 }

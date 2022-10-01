@@ -5,20 +5,27 @@ import {
   getDoc,
   getDocs,
   increment,
+  query,
+  where,
   writeBatch,
 } from "firebase/firestore";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import { auth, db } from "../util/firebase";
-import { useDocument } from "react-firebase-hooks/firestore";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { UserContext } from "../util/context";
- function Heart(props) {
+
+const Heart = (props) => {
   const { slug, post } = props;
   const { user } = useContext(UserContext);
 
+  //   const [userUid, setUserUid] = useState(user?.uid);
   const postRef = doc(db, "users", post.uid, "posts", slug);
   const likeRef = collection(postRef, "likes");
-
+  let likeQ;
+  if (user) {
+    likeQ = query(likeRef, where("uid", "==", user.uid));
+  }
   const batch = writeBatch(db);
 
   const removeLike = async () => {
@@ -40,13 +47,13 @@ import { UserContext } from "../util/context";
     });
     await batch.commit();
   };
-const [snapshot, loading, error] = useDocument(likeRef);
+  const [snapshot, loading, error] = useCollection(likeQ);
 
   return snapshot?.size ? (
     <RiHeartFill color="red" onClick={removeLike} />
   ) : (
     <RiHeartLine onClick={addLike} />
   );
-}
+};
 
 export default Heart;

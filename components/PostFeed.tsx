@@ -51,7 +51,7 @@ function PostFeed(props: IPostFeedProps) {
                 </Link>
               </div>
 
-              <Heart slug={post.slug} post={post} />
+              <Heart slug={post.slug} post={post} user={user} />
             </div>
 
             <div className={styles.post__container}>

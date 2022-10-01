@@ -14,13 +14,13 @@ function Navbar(props) {
     auth.signOut();
   };
   // return {!user && !username && return <div>loading...</div>}
-  if (!user && !username) {
-    return (
-      <nav className={styles.navbar}>
-        <div className={styles.navbar__container}></div>
-      </nav>
-    );
-  }
+  // if (!user) {
+  //   return (
+  //     <nav className={styles.navbar}>
+  //       <div className={styles.navbar__container}></div>
+  //     </nav>
+  //   );
+  // }
 
   return (
     <nav className={styles.navbar}>
@@ -57,7 +57,7 @@ function Navbar(props) {
         ) : (
           <ul>
             <Link href={"login"}>
-              <li>Sign In</li>
+              <li className={styles.signin}>Sign In</li>
             </Link>
           </ul>
         )}
