@@ -8,8 +8,8 @@ import Button from "./Button";
 import { RiCodeSSlashLine } from "react-icons/ri";
 
 interface INavbarProps {
-  user: any;
-  username: string;
+  user: any | null;
+  username: string | null;
 }
 
 function Navbar(props: INavbarProps) {
