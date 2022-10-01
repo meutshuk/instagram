@@ -5,8 +5,13 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGoogle } from "react-icons/fa";
 import { RiCake2Fill } from "react-icons/ri";
 import { getDayAndDate } from "../util/general";
+import { IUser } from "../typings/interfaces";
 
-function ProfileArea(props) {
+interface IProfileAreaProps {
+  user: IUser;
+}
+
+function ProfileArea(props: IProfileAreaProps) {
   const { user } = props;
   const [mouseOverGoogle, setMouseOverGoogle] = React.useState(false);
 

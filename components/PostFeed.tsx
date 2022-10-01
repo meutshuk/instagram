@@ -16,7 +16,7 @@ import Image from "next/image";
 
 interface IPostFeedProps {
   posts: IPost[];
-  // username?: string;
+  username?: string;
 }
 function PostFeed(props: IPostFeedProps) {
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ function PostFeed(props: IPostFeedProps) {
                 </Link>
               </div>
 
-              <Heart slug={post.slug} post={post} user={user} />
+              <Heart post={post} />
             </div>
 
             <div className={styles.post__container}>

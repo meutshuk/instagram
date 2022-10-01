@@ -7,7 +7,12 @@ import Image from "next/image";
 import Button from "./Button";
 import { RiCodeSSlashLine } from "react-icons/ri";
 
-function Navbar(props) {
+interface INavbarProps {
+  user: any;
+  username: string;
+}
+
+function Navbar(props: INavbarProps) {
   const { user, username } = props;
 
   const signOut = () => {
