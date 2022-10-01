@@ -14,13 +14,18 @@ import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import { auth, db } from "../util/firebase";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
 import { UserContext } from "../util/context";
+import { IPost, IUser } from "../typings/interfaces";
 
-const Heart = (props) => {
-  const { slug, post } = props;
+interface IHeartProps {
+  post: IPost;
+}
+
+const Heart = (props: IHeartProps) => {
+  const { post } = props;
   const { user } = useContext(UserContext);
 
   //   const [userUid, setUserUid] = useState(user?.uid);
-  const postRef = doc(db, "users", post.uid, "posts", slug);
+  const postRef = doc(db, "users", post.uid, "posts", post.slug);
   const likeRef = collection(postRef, "likes");
   let likeQ;
   if (user) {
