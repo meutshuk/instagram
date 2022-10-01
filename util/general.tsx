@@ -16,4 +16,3 @@ export const handleEdit = (post: IPost) => {
   Router.push(`/edit/${post.username}/${post.slug}`);
 };
 
-export const handleUpdate = (e) => {};
